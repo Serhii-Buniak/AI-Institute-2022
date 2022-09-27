@@ -8,7 +8,7 @@ public static class NeuronFormulas
 
         foreach (InputSignal signal in inputSignals)
         {
-            sum += Convert.ToDouble(signal.X) + signal.Omega;
+            sum += Convert.ToDouble(signal.X) * signal.Omega;
         }
 
         return sum;
