@@ -14,20 +14,10 @@ IEnumerable<NeuronSeed> neuronSeeds = new List<NeuronSeed>()
     new LearningNumber(Numbers.Eight,   isEven: true ).NeuronSeed,
     new LearningNumber(Numbers.Nine,    isEven: false ).NeuronSeed,
 };
-
 NeuronTeacher neuronTeacher = new(
     seeds: neuronSeeds,
-    сoefficients: new List<double>()
-    {
-        2, 4, 5, 1, 2, 
-        -1, 6, 5, 3, 5,
-        6, 4, 0, 0, 3,
-        5, 1, 31, 1, 1,
-        3, 0, 215, 0, 1,
-        1, 4, 0, 6, 1,
-        1, 2, 1, 1, 5,
-    },
-    tetta: 0);
+    сoefficients: NeuronFormulas.GetRandomСoefficients(-5, 5, 35),
+    tetta: NeuronFormulas.GetRandomСoefficient(-5, 5));
 
 Neuron neuron = neuronTeacher.Teach();
 
