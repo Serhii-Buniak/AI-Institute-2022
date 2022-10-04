@@ -1,15 +1,30 @@
 ﻿namespace NeuronLibrary;
 
-public class OutputSignal : INeuronSignal
+public class OutputSignal
 {
-    public OutputSignal(bool y, double tetta)
+    private double y;
+    public OutputSignal(double y, double tetta)
     {
         Y = y;
         Tetta = tetta;
     }
 
-    public bool Y { get; }
+    public double Y
+    {
+        get
+        {
+            return y;
+        }
+        set
+        {
+            if (value < 0 || value > 1)
+            {
+                throw new ArgumentException($"{nameof(Y)} has to be 0<{nameof(Y)}<1", nameof(value));
+            }
+            y = value;
+        }
+    }
     public double Tetta { get; }
-    bool INeuronSignal.Value { get => Y; }
-    double INeuronSignal.Сoefficient { get => Tetta; }
+    public bool IsOne => Y == 1;
+    public bool IsZero => Y == 0;
 }

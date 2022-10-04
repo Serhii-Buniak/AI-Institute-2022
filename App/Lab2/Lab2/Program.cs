@@ -16,13 +16,20 @@ IEnumerable<NeuronSeed> neuronSeeds = new List<NeuronSeed>()
 };
 NeuronTeacher neuronTeacher = new(
     seeds: neuronSeeds,
-    сoefficients: NeuronFormulas.GetRandomСoefficients(-5, 5, 35),
-    tetta: NeuronFormulas.GetRandomСoefficient(-5, 5));
+    (NeuronFormulas.GetRandomСoefficients(-5, 5, 35), NeuronFormulas.GetRandomСoefficient(-5, 5))
+    );
 
-Neuron neuron = neuronTeacher.Teach();
+int iterNumber = 0;
+neuronTeacher.OnIteration = () =>
+{
+    iterNumber++;
+    Console.WriteLine($"Iter: {iterNumber}");
+};
+
+Neuron neuron = neuronTeacher.Teach(0.5);
 
 neuron.ChangeInputValues(Numbers.One);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.One Even");
 }
@@ -32,7 +39,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Three);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Three Even");
 }
@@ -42,7 +49,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Four);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Four Even");
 }
@@ -52,7 +59,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Seven);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Seven Even");
 }
@@ -62,7 +69,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Eight);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Eight Even");
 }
@@ -72,7 +79,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Nine);
-if (neuron.OutputSignal.Y)
+if (neuron.OutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Nine Even");
 }

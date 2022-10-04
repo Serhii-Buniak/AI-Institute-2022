@@ -2,7 +2,7 @@
 
 public static class Numbers
 {
-    public static List<bool> One => new List<int>()
+    public static List<double> One => new List<double>()
     {
         0, 0, 1, 0, 0,
         0, 1, 1, 0, 0,
@@ -11,9 +11,9 @@ public static class Numbers
         0, 0, 1, 0, 0,
         0, 0, 1, 0, 0,
         1, 1, 1, 1, 1,
-    }.Select(n => Convert.ToBoolean(n)).ToList();   
+    }.ToList();   
     
-    public static List<bool> Two => new List<int>()
+    public static List<double> Two => new List<double>()
     {
         0, 1, 1, 1, 0,
         1, 0, 0, 0, 1,
@@ -22,9 +22,9 @@ public static class Numbers
         0, 0, 1, 0, 0,
         0, 1, 0, 0, 0,
         1, 1, 1, 1, 1,
-    }.Select(n => Convert.ToBoolean(n)).ToList();    
+    }.ToList();
 
-    public static List<bool> Three => new List<int>()
+    public static List<double> Three => new List<double>()
     {
         0, 1, 1, 1, 0,
         1, 0, 0, 0, 1,
@@ -33,9 +33,9 @@ public static class Numbers
         1, 0, 0, 0, 1,
         1, 0, 0, 0, 1,
         0, 1, 1, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();
+    }.ToList();
 
-    public static List<bool> Four => new List<int>()
+    public static List<double> Four => new List<double>()
     {
         0, 0, 0, 1, 0,
         0, 0, 1, 1, 0,
@@ -44,9 +44,9 @@ public static class Numbers
         1, 1, 1, 1, 1,
         0, 0, 0, 1, 0,
         0, 0, 0, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();
+    }.ToList();
 
-    public static List<bool> Five => new List<int>()
+    public static List<double> Five => new List<double>()
     {
         1, 1, 1, 1, 1,
         1, 0, 0, 0, 0,
@@ -55,9 +55,9 @@ public static class Numbers
         0, 0, 0, 0, 1,
         1, 0, 0, 0, 1,
         1, 1, 1, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();
+    }.ToList();
 
-    public static List<bool> Six => new List<int>()
+    public static List<double> Six => new List<double>()
     {
         0, 1, 1, 1, 0,
         1, 0, 0, 0, 1,
@@ -66,9 +66,9 @@ public static class Numbers
         1, 0, 0, 0, 1,
         1, 0, 0, 0, 1,
         0, 1, 1, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();   
-    
-    public static List<bool> Seven => new List<int>()
+    }.ToList();
+
+    public static List<double> Seven => new List<double>()
     {
         0, 1, 1, 1, 0,
         0, 0, 0, 1, 0,
@@ -77,9 +77,9 @@ public static class Numbers
         0, 0, 0, 1, 0,
         0, 0, 0, 1, 0,
         0, 0, 0, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();    
+    }.ToList();
 
-    public static List<bool> Eight => new List<int>()
+    public static List<double> Eight => new List<double>()
     {
         0, 1, 1, 1, 0,
         1, 0, 0, 0, 1,
@@ -88,9 +88,9 @@ public static class Numbers
         1, 0, 0, 0, 1,
         1, 0, 0, 0, 1,
         0, 1, 1, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();
+    }.ToList();
 
-    public static List<bool> Nine => new List<int>()
+    public static List<double> Nine => new List<double>()
     {
         0, 1, 1, 1, 0,
         1, 0, 0, 0, 1,
@@ -99,5 +99,5 @@ public static class Numbers
         0, 0, 0, 0, 1,
         1, 0, 0, 0, 1,
         0, 1, 1, 1, 0,
-    }.Select(n => Convert.ToBoolean(n)).ToList();
+    }.ToList();
 }

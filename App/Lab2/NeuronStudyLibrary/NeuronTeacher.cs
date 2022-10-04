@@ -5,47 +5,49 @@ namespace NeuronLearningLibrary;
 public class NeuronTeacher
 {
     private readonly Neuron _neuron;
-    private readonly IEnumerable<NeuronSeed> _seeds;
+    private readonly IReadOnlyList<NeuronSeed> _seeds;
 
     public NeuronTeacher(IEnumerable<NeuronSeed> seeds, IEnumerable<double> сoefficients, double tetta)
     {
-        _seeds = seeds;
+        _seeds = seeds.ToList();
         var InputSignals = сoefficients.Select(cof => new InputSignal() { Omega = cof });
-        _neuron = new Neuron(InputSignals, tetta);
+        _neuron = new NeuronTetta(InputSignals, tetta);
     }
 
-    public Neuron Teach()
+    public NeuronTeacher(IEnumerable<NeuronSeed> seeds, (IEnumerable<double> other, double zero) сoefficietns)
     {
-        foreach (NeuronSeed seed in _seeds)
+        _seeds = seeds.ToList();
+        var InputSignals = сoefficietns.other.Select(cof => new InputSignal() { Omega = cof });
+        _neuron = new NeuronZero(InputSignals, сoefficietns.zero);
+    }
+
+    public Action OnIteration { get; set; } = () => { };
+
+    public Neuron Teach(double learnTime = 1)
+    {
+        for (int i = 0; i < _seeds.Count; i++)
         {
-            Console.WriteLine("Iteration");
-            bool success = RunNeuronSeed(seed);
+            OnIteration();
+            bool success = RunNeuronSeed(_seeds[i], learnTime);
             if (!success)
             {
                 return Teach();
             }
         }
+
         return _neuron;
     }
 
-    private bool RunNeuronSeed(NeuronSeed neuronSeed)
+    private bool RunNeuronSeed(NeuronSeed neuronSeed, double learnTime = 1)
     {
         _neuron.ChangeInputValues(neuronSeed.InputsValues);
 
-        if (_neuron.OutputSignal.Y == neuronSeed.ExpectedOutput)
+        if (_neuron.OutputSignal.Y == neuronSeed.DesireResponse)
         {
             return true;
         }
 
-        if (_neuron.OutputSignal.Y == true && neuronSeed.ExpectedOutput == false)
-        {
-            _neuron.DecrementСoefficientsByX();
-        }
-        else
-        {
-            _neuron.IncrementСoefficientsByX();
-        }
-
+        _neuron.ChangeСoefficientsByDesireResponse(neuronSeed.DesireResponse, learnTime);
         return false;
     }
 }

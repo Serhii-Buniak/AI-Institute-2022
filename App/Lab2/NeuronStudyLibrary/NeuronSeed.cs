@@ -2,6 +2,6 @@
 
 public class NeuronSeed
 {
-    public bool ExpectedOutput { get; set; }
-    public List<bool> InputsValues { get; set; } = new List<bool>();
+    public double DesireResponse { get; set; }
+    public List<double> InputsValues { get; set; } = new();
 }

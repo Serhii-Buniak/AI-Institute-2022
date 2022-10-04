@@ -4,25 +4,25 @@ namespace Lab2;
 
 public class LearningNumber
 {
-    private readonly bool[] points = new bool[35];
+    private readonly double[] _points = new double[35];
 
-    public LearningNumber(IReadOnlyList<bool> values, bool isEven)
+    public LearningNumber(IReadOnlyList<double> values, bool isEven)
     {
-        if (points.Length != values.Count)
+        if (_points.Length != values.Count)
         {
-            throw new ArgumentException($"{nameof(values)} length not ${points.Length}", nameof(values));
+            throw new ArgumentException($"{nameof(values)} length not ${_points.Length}", nameof(values));
         }
 
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < _points.Length; i++)
         {
-            points[i] = values[i];
+            _points[i] = values[i];
         }
 
         IsEven = isEven;
     }
 
-    public bool[] Points => points;
+    public double[] Points => _points;
     public bool IsEven { get; }
 
-    public NeuronSeed NeuronSeed => new() { InputsValues = points.ToList(), ExpectedOutput = IsEven };
+    public NeuronSeed NeuronSeed => new() { InputsValues = Points.ToList(), DesireResponse = Convert.ToDouble(IsEven) };
 }

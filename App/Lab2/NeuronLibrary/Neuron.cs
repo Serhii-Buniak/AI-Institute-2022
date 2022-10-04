@@ -1,63 +1,46 @@
 ﻿namespace NeuronLibrary;
 
-public class Neuron
+public abstract class Neuron
 {
-    private readonly double _tetta;
-
-    public Neuron(IEnumerable<INeuronSignal> inputSignals, double tetta)
+    public Neuron(IEnumerable<InputSignal> inputSignals)
     {
-        InputSignals = inputSignals
-            .Select(ns => new InputSignal()
-            {
-                X = ns.Value,
-                Omega = ns.Сoefficient
-            }).ToList();
-        _tetta = tetta;
+        InputSignals = inputSignals.ToList();
     }
 
-    public IReadOnlyList<InputSignal> InputSignals { get; set; }
-    public OutputSignal OutputSignal => new(NeuronFormulas.GetOutput(InputSignals, _tetta), _tetta);
+    public IReadOnlyList<InputSignal> InputSignals { get; }
+    public abstract OutputSignal OutputSignal { get; }
 
-    public Neuron IncrementСoefficientsByX()
+    public Neuron ChangeСoefficientsByDesireResponse(double desireResponse, double learnTime = 1)
+    {
+        var outputSignal = OutputSignal;
+        foreach (InputSignal inputSignal in InputSignals)
+        {
+            inputSignal.Omega += NeuronFormulas.GetEpsilon(outputSignal, desireResponse) * inputSignal.X * learnTime;
+        }
+
+        return this;
+    }
+
+    public Neuron IncrementСoefficientsByX(double learnTime = 1)
     {
         foreach (InputSignal inputSignal in InputSignals)
         {
-            inputSignal.Omega += Convert.ToDouble(inputSignal.X);
+            inputSignal.Omega += inputSignal.X * learnTime;
         }
 
         return this;
     }
-    public Neuron DecrementСoefficientsByX()
+
+    public Neuron DecrementСoefficientsByX(double learnTime = 1)
     {
         foreach (InputSignal inputSignal in InputSignals)
         {
-            inputSignal.Omega -= Convert.ToDouble(inputSignal.X);
+            inputSignal.Omega -= inputSignal.X * learnTime;
         }
 
         return this;
     }
 
-    public static Neuron operator ++(Neuron neuron) => neuron.DecrementСoefficientsByX();
-    public static Neuron operator --(Neuron neuron) => neuron.IncrementСoefficientsByX();
-
-    public Neuron ChangeInputValues(IReadOnlyList<bool> values)
-    {
-        if (values.Count != InputSignals.Count)
-        {
-            throw new ArgumentException($"{nameof(InputSignals)} and {nameof(values)} don't have same length", nameof(values));
-        }
-
-        for (int i = 0; i < InputSignals.Count; i++)
-        {
-            InputSignals[i].X = values[i];
-        }
-
-        return this;
-    }
-
-    public Neuron ChangeInputValue(int index, bool value)
-    {
-        InputSignals[index].X = value;
-        return this;
-    }    
+    public abstract Neuron ChangeInputValues(IReadOnlyList<double> values);
+    public abstract Neuron ChangeInputValue(int index, double value);
 }

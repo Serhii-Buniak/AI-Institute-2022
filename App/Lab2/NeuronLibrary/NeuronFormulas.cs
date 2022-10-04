@@ -3,22 +3,28 @@
 public static class NeuronFormulas
 {
     private static readonly Random random = new();
+
     public static double GetWeightedSum(IEnumerable<InputSignal> inputSignals)
     {
         double sum = 0;
 
         foreach (InputSignal signal in inputSignals)
         {
-            sum += Convert.ToDouble(signal.X) * signal.Omega;
+            sum += signal.X * signal.Omega;
         }
 
         return sum;
     }
 
-    public static bool GetOutput(IEnumerable<InputSignal> inputSignals, double tetta)
+    public static OutputSignal GetOutput(IEnumerable<InputSignal> inputSignals, double tetta = 0)
     {
         double weightedSum = GetWeightedSum(inputSignals);
-        return weightedSum >= tetta;
+        return new OutputSignal(weightedSum >= tetta ? 1 : 0, tetta) ;
+    }
+
+    public static double GetEpsilon(OutputSignal outputSignal, double desireResponse)
+    {
+        return desireResponse - outputSignal.Y;
     }
 
     public static IEnumerable<double> GetRandomСoefficients(double min, double max, int length, int numberDecimalPlaces = 0)
