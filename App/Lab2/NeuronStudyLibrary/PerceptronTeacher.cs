@@ -11,6 +11,8 @@ public class PerceptronTeacher
         _seeds = seeds;
     }
 
+    public Action OnIteration { get; set; } = () => { };
+
     public Perceptron Teach(double learnTime = 1)
     {
         List<Neuron> neurons = new();
@@ -18,7 +20,8 @@ public class PerceptronTeacher
         foreach (PerceptronSeed seed in _seeds)
         {
             List<NeuronSeed> neuronSeeds = seed.NeuronSeeds;
-            NeuronTeacher neuronTeacher = new(neuronSeeds, (neuronSeeds.Select((ns) => 0.0), 0));
+            (IEnumerable<double> other, double zero) сoefficietns = (neuronSeeds[0].InputsValues.Select(ns => 0.0), 0);
+            NeuronTeacher neuronTeacher = new(neuronSeeds, сoefficietns) { OnIteration = OnIteration };
             Neuron neuron = neuronTeacher.Teach(learnTime);
             neurons.Add(neuron);
         }
