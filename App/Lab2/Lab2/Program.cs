@@ -29,7 +29,7 @@ neuronTeacher.OnIteration = () =>
 Neuron neuron = neuronTeacher.Teach(0.5);
 
 neuron.ChangeInputValues(Numbers.One);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.One Even");
 }
@@ -39,7 +39,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Three);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.Three Even");
 }
@@ -49,7 +49,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Four);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.Four Even");
 }
@@ -59,7 +59,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Seven);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.Seven Even");
 }
@@ -69,7 +69,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Eight);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.Eight Even");
 }
@@ -79,7 +79,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Nine);
-if (neuron.OutputSignal.IsOne)
+if (neuron.OutputStepSignal.IsOne)
 {
     Console.WriteLine("Numbers.Nine Even");
 }

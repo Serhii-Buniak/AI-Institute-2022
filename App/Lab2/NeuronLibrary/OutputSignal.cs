@@ -3,10 +3,9 @@
 public class OutputSignal
 {
     private double y;
-    public OutputSignal(double y, double tetta)
+    public OutputSignal(double y)
     {
         Y = y;
-        Tetta = tetta;
     }
 
     public double Y
@@ -24,7 +23,6 @@ public class OutputSignal
             y = value;
         }
     }
-    public double Tetta { get; }
     public bool IsOne => Y == 1;
     public bool IsZero => Y == 0;
 }

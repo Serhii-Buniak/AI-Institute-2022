@@ -19,7 +19,7 @@ public class NeuronZero : Neuron
         }
     }
 
-    public override OutputSignal OutputSignal => NeuronFormulas.GetOutput(InputSignals);
+    public override OutputSignal OutputStepSignal => NeuronFormulas.GetStepOutput(InputSignals);
 
     public override Neuron ChangeInputValues(IReadOnlyList<double> values)
     {

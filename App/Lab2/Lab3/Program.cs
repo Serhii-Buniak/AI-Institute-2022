@@ -46,7 +46,7 @@ LetterPerceptron perceptron = new(
     new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" }
     );
 
-perceptron.ChangeInputValues(Letters.F);
+perceptron.ChangeInputValues(Letters.Fake);
 
 Dictionary<string, double> dict = perceptron.GetNamePercentPairs();
 

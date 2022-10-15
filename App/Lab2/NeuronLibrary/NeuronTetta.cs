@@ -9,7 +9,7 @@ public class NeuronTetta : Neuron
         _tetta = tetta;
     }
 
-    public override OutputSignal OutputSignal => NeuronFormulas.GetOutput(InputSignals, _tetta);
+    public override OutputSignal OutputStepSignal => NeuronFormulas.GetStepOutput(InputSignals, _tetta);
 
     public override Neuron ChangeInputValues(IReadOnlyList<double> values)
     {

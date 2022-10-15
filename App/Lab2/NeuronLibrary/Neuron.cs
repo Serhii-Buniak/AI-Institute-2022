@@ -8,14 +8,15 @@ public abstract class Neuron
     }
 
     public IReadOnlyList<InputSignal> InputSignals { get; }
-    public abstract OutputSignal OutputSignal { get; }
+    public abstract OutputSignal OutputStepSignal { get; }
+    public virtual OutputSignal OutputSigmoidalSignal => NeuronFormulas.GetSigmoidalOutput(InputSignals);
 
     public Neuron ChangeСoefficientsByDesireResponse(double desireResponse, double learnTime = 1)
     {
-        var outputSignal = OutputSignal;
+        var outputSignal = OutputSigmoidalSignal;
         foreach (InputSignal inputSignal in InputSignals)
         {
-            inputSignal.Omega += NeuronFormulas.GetEpsilon(outputSignal, desireResponse) * inputSignal.X * learnTime;
+            inputSignal.Omega += NeuronFormulas.GetDeltaSigmoidalOmega(outputSignal, inputSignal, desireResponse, learnTime);
         }
 
         return this;

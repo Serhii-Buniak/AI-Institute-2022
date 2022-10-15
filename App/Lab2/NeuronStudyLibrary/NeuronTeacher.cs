@@ -41,8 +41,8 @@ public class NeuronTeacher
     private bool RunNeuronSeed(NeuronSeed neuronSeed, double learnTime = 1)
     {
         _neuron.ChangeInputValues(neuronSeed.InputsValues);
-
-        if (_neuron.OutputSignal.Y == neuronSeed.DesireResponse)
+        Console.WriteLine(_neuron.OutputSigmoidalSignal.Y);
+        if ((neuronSeed.DesireResponse -_neuron.OutputSigmoidalSignal.Y) < 0.1)
         {
             return true;
         }

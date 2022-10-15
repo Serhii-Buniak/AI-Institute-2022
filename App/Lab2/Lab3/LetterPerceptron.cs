@@ -17,7 +17,7 @@ public class LetterPerceptron : Perceptron
 
     public Dictionary<string, double> GetNameValuesPairs()
     {
-        IReadOnlyList<OutputSignal> signals = OutputSignals;
+        IReadOnlyList<OutputSignal> signals = OutputSigmoidalSignals;
         Dictionary<string, double> keyValuePairs = new();
         for (int i = 0; i < Neurons.Count; i++)
         {
@@ -29,9 +29,9 @@ public class LetterPerceptron : Perceptron
 
     public Dictionary<string, double> GetNamePercentPairs()
     {
-        IReadOnlyList<OutputSignal> signals = OutputSignals;
-
-        int oneCount = OutputSignals.Count(s => s.IsOne);
+        IReadOnlyList<OutputSignal> signals = OutputSigmoidalSignals;
+        
+        int oneCount = OutputSigmoidalSignals.Count(s => s.IsOne);
         double onePercent = 0;
         if (oneCount != 0)
         {
@@ -40,7 +40,7 @@ public class LetterPerceptron : Perceptron
         Dictionary<string, double> keyValuePairs = new();
         for (int i = 0; i < Neurons.Count; i++)
         {
-            keyValuePairs[_names[i]] = signals[i].IsOne ? onePercent : signals[i].Y;
+            keyValuePairs[_names[i]] = (signals[i].IsOne ? onePercent : Math.Round(signals[i].Y, 2)) * 100;
         }
 
         return keyValuePairs;

@@ -16,15 +16,51 @@ public static class NeuronFormulas
         return sum;
     }
 
-    public static OutputSignal GetOutput(IEnumerable<InputSignal> inputSignals, double tetta = 0)
+    public static OutputSignal GetStepOutput(IEnumerable<InputSignal> inputSignals, double tetta = 0)
     {
         double weightedSum = GetWeightedSum(inputSignals);
-        return new OutputSignal(weightedSum >= tetta ? 1 : 0, tetta) ;
+        return new OutputSignal(weightedSum >= tetta ? 1 : 0);
+    }
+
+    public static OutputSignal GetSigmoidalOutput(IEnumerable<InputSignal> inputSignals)
+    {
+        double weightedSum = GetWeightedSum(inputSignals);
+        double y = 1 / (1 + Math.Pow(Math.E, -weightedSum));
+
+        return new OutputSignal(y);
     }
 
     public static double GetEpsilon(OutputSignal outputSignal, double desireResponse)
     {
         return desireResponse - outputSignal.Y;
+    }
+
+    public static double GetEpsilon2(IEnumerable<(Neuron Neuron, double desireResponse)> NeuronSeed)
+    {
+        double sum = 0;
+
+        foreach (var seed in NeuronSeed)
+        {
+            sum += Math.Pow((seed.desireResponse - seed.Neuron.OutputSigmoidalSignal.Y), 2);
+        }
+
+        return (1 / 2) * sum;
+    }
+
+    public static double GetDelta(OutputSignal outputSignal, double desireResponse)
+    {
+        double y = outputSignal.Y;
+        return y * (1 - y) * (desireResponse - y);
+    }
+
+    public static double GetDeltaStepOmega(OutputSignal outputSignal, InputSignal inputSignal, double desireResponse, double learnTime = 1)
+    {
+        return GetEpsilon(outputSignal, desireResponse) * inputSignal.X * learnTime;
+    }
+
+    public static double GetDeltaSigmoidalOmega(OutputSignal outputSignal, InputSignal inputSignal, double desireResponse, double learnTime = 1)
+    {
+        return GetDelta(outputSignal, desireResponse) * inputSignal.X * learnTime;
     }
 
     public static IEnumerable<double> GetRandomСoefficients(double min, double max, int length, int numberDecimalPlaces = 0)

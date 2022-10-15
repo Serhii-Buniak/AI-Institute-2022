@@ -8,7 +8,8 @@ public class Perceptron
     }
 
     public IReadOnlyList<Neuron> Neurons { get; }
-    public IReadOnlyList<OutputSignal> OutputSignals => Neurons.Select(n => n.OutputSignal).ToList();
+    public IReadOnlyList<OutputSignal> OutputStepSignals => Neurons.Select(n => n.OutputStepSignal).ToList();
+    public IReadOnlyList<OutputSignal> OutputSigmoidalSignals => Neurons.Select(n => n.OutputSigmoidalSignal).ToList();
 
     public Perceptron ChangeInputValues(IReadOnlyList<double> values)
     {

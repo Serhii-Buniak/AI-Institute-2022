@@ -287,4 +287,15 @@ public static class Letters
         1, 0, 0, 0, 0,
         1, 1, 1, 1, 1,
     }.ToList();
+
+    public static List<double> Fake => new List<double>()
+    {
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 1, 0, 0,
+    }.ToList();
 }
