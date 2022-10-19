@@ -11,8 +11,8 @@ public static class Numbers
         0, 0, 1, 0, 0,
         0, 0, 1, 0, 0,
         1, 1, 1, 1, 1,
-    }.ToList();   
-    
+    }.ToList();
+
     public static List<double> Two => new List<double>()
     {
         0, 1, 1, 1, 0,

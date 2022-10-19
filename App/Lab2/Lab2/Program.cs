@@ -2,6 +2,7 @@
 using NeuronLearningLibrary;
 using NeuronLibrary;
 
+
 IEnumerable<NeuronSeed> neuronSeeds = new List<NeuronSeed>()
 {
     new LearningNumber(Numbers.One,     isEven: false ).NeuronSeed,
@@ -14,10 +15,7 @@ IEnumerable<NeuronSeed> neuronSeeds = new List<NeuronSeed>()
     new LearningNumber(Numbers.Eight,   isEven: true ).NeuronSeed,
     new LearningNumber(Numbers.Nine,    isEven: false ).NeuronSeed,
 };
-NeuronTeacher neuronTeacher = new(
-    seeds: neuronSeeds,
-    (NeuronFormulas.GetRandomСoefficients(-5, 5, 35), NeuronFormulas.GetRandomСoefficient(-5, 5))
-    );
+NeuronTeacher neuronTeacher = new(seeds: neuronSeeds);
 
 int iterNumber = 0;
 neuronTeacher.OnIteration = () =>
@@ -26,10 +24,10 @@ neuronTeacher.OnIteration = () =>
     Console.WriteLine($"Iter: {iterNumber}");
 };
 
-Neuron neuron = neuronTeacher.Teach(0.5);
+Neuron neuron = neuronTeacher.Teach();
 
 neuron.ChangeInputValues(Numbers.One);
-if (neuron.OutputStepSignal.IsOne)
+if (neuron.StepOutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.One Even");
 }
@@ -38,18 +36,18 @@ else
     Console.WriteLine("Numbers.One Not Even");
 }
 
-neuron.ChangeInputValues(Numbers.Three);
-if (neuron.OutputStepSignal.IsOne)
+neuron.ChangeInputValues(Numbers.Two);
+if (neuron.StepOutputSignal.IsOne)
 {
-    Console.WriteLine("Numbers.Three Even");
+    Console.WriteLine("Numbers.Two Even");
 }
 else
 {
-    Console.WriteLine("Numbers.Three Not Even");
+    Console.WriteLine("Numbers.Two Not Even");
 }
 
 neuron.ChangeInputValues(Numbers.Four);
-if (neuron.OutputStepSignal.IsOne)
+if (neuron.StepOutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Four Even");
 }
@@ -59,7 +57,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Seven);
-if (neuron.OutputStepSignal.IsOne)
+if (neuron.StepOutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Seven Even");
 }
@@ -69,7 +67,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Eight);
-if (neuron.OutputStepSignal.IsOne)
+if (neuron.StepOutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Eight Even");
 }
@@ -79,7 +77,7 @@ else
 }
 
 neuron.ChangeInputValues(Numbers.Nine);
-if (neuron.OutputStepSignal.IsOne)
+if (neuron.StepOutputSignal.IsOne)
 {
     Console.WriteLine("Numbers.Nine Even");
 }

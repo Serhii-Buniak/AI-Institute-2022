@@ -1,4 +1,5 @@
 ﻿using NeuronLearningLibrary;
+using NeuronLibrary;
 
 namespace Lab3;
 
@@ -23,10 +24,11 @@ public class LearningLetters
 
                 for (int j = 0; j < length; j++)
                 {
+                    var inputsValues = _letters[j].Select(l => new InputSignal() { X = l }).ToList();
                     var neuronSeed = new NeuronSeed()
                     {
-                        InputsValues = _letters[j],
-                        DesireResponse = Convert.ToDouble(i == j)
+                        InputsValues = inputsValues,
+                        DesireResponse = new DesireResponse() { D = Convert.ToDouble(i == j) } 
                     };  
 
                     perceptronSeed.NeuronSeeds.Add(neuronSeed);

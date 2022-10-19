@@ -18,7 +18,7 @@ public class InputSignal
             x = value;
         }
     }
-    public double Omega { get; set; }
+
     public bool IsOne => X == 1;
     public bool IsZero => X == 0;
 }

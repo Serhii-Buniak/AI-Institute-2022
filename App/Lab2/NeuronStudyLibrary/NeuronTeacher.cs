@@ -7,18 +7,17 @@ public class NeuronTeacher
     private readonly Neuron _neuron;
     private readonly IReadOnlyList<NeuronSeed> _seeds;
 
-    public NeuronTeacher(IEnumerable<NeuronSeed> seeds, IEnumerable<double> сoefficients, double tetta)
+    public NeuronTeacher(IEnumerable<NeuronSeed> seeds)
     {
         _seeds = seeds.ToList();
-        var InputSignals = сoefficients.Select(cof => new InputSignal() { Omega = cof });
-        _neuron = new NeuronTetta(InputSignals, tetta);
+        _neuron = new Neuron(_seeds.First().InputsValues.Count);
     }
 
-    public NeuronTeacher(IEnumerable<NeuronSeed> seeds, (IEnumerable<double> other, double zero) сoefficietns)
+
+    public NeuronTeacher(IEnumerable<NeuronSeed> seeds, SensitivityThreshold threshold)
     {
         _seeds = seeds.ToList();
-        var InputSignals = сoefficietns.other.Select(cof => new InputSignal() { Omega = cof });
-        _neuron = new NeuronZero(InputSignals, сoefficietns.zero);
+        _neuron = new Neuron(_seeds.First().InputsValues.Count, threshold);
     }
 
     public Action OnIteration { get; set; } = () => { };
@@ -40,14 +39,15 @@ public class NeuronTeacher
 
     private bool RunNeuronSeed(NeuronSeed neuronSeed, double learnTime = 1)
     {
-        _neuron.ChangeInputValues(neuronSeed.InputsValues);
-        Console.WriteLine(_neuron.OutputSigmoidalSignal.Y);
-        if ((neuronSeed.DesireResponse -_neuron.OutputSigmoidalSignal.Y) < 0.1)
+        var values = neuronSeed.InputsValues.Select(sig => sig.X).ToList();
+        _neuron.ChangeInputValues(values);
+
+        if (_neuron.StepOutputSignal.Y == neuronSeed.DesireResponse.D)
         {
             return true;
         }
 
-        _neuron.ChangeСoefficientsByDesireResponse(neuronSeed.DesireResponse, learnTime);
+        _neuron.ChangeStepСoefficientsByDesireResponse(neuronSeed.DesireResponse, learnTime);
         return false;
     }
 }

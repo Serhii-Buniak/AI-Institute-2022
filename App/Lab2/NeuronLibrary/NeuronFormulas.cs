@@ -4,61 +4,61 @@ public static class NeuronFormulas
 {
     private static readonly Random random = new();
 
-    public static double GetWeightedSum(IEnumerable<InputSignal> inputSignals)
+    public static double GetWeightedSum(IReadOnlyList<InputSignal> inputSignals, IReadOnlyList<Сoefficient> сoefficients)
     {
+        if (inputSignals.Count != сoefficients.Count)
+        {
+            throw new ArgumentException($"{nameof(inputSignals)} and {nameof(сoefficients)} don't have same length", nameof(inputSignals));
+        }
+
         double sum = 0;
 
-        foreach (InputSignal signal in inputSignals)
+        for (int i = 0; i < inputSignals.Count; i++)
         {
-            sum += signal.X * signal.Omega;
+            sum += inputSignals[i].X * сoefficients[i].W;
         }
 
         return sum;
     }
 
-    public static OutputSignal GetStepOutput(IEnumerable<InputSignal> inputSignals, double tetta = 0)
+    public static OutputSignal GetStepOutput(IReadOnlyList<InputSignal> inputSignals, IReadOnlyList<Сoefficient> сoefficients, SensitivityThreshold? threshold)
     {
-        double weightedSum = GetWeightedSum(inputSignals);
-        return new OutputSignal(weightedSum >= tetta ? 1 : 0);
+        threshold ??= new SensitivityThreshold() { Tetta = 0 };
+        double weightedSum = GetWeightedSum(inputSignals, сoefficients);
+        return new OutputSignal(weightedSum >= threshold.Tetta ? 1 : 0);
     }
 
-    public static OutputSignal GetSigmoidalOutput(IEnumerable<InputSignal> inputSignals)
+    public static OutputSignal GetSigmoidalOutput(IReadOnlyList<InputSignal> inputSignals, IReadOnlyList<Сoefficient> сoefficients)
     {
-        double weightedSum = GetWeightedSum(inputSignals);
+        double weightedSum = GetWeightedSum(inputSignals, сoefficients);
         double y = 1 / (1 + Math.Pow(Math.E, -weightedSum));
 
         return new OutputSignal(y);
     }
 
-    public static double GetEpsilon(OutputSignal outputSignal, double desireResponse)
+    public static double GetEpsilon(OutputSignal outputSignal, DesireResponse desireResponse)
     {
-        return desireResponse - outputSignal.Y;
+        return desireResponse.D - outputSignal.Y;
     }
 
-    public static double GetEpsilon2(IEnumerable<(Neuron Neuron, double desireResponse)> NeuronSeed)
+    public static double GetEpsilon2(OutputSignal outputSignal, DesireResponse desireResponse)
     {
-        double sum = 0;
-
-        foreach (var seed in NeuronSeed)
-        {
-            sum += Math.Pow((seed.desireResponse - seed.Neuron.OutputSigmoidalSignal.Y), 2);
-        }
-
+        double sum = Math.Pow((desireResponse.D - outputSignal.Y), 2);
         return (1 / 2) * sum;
     }
 
-    public static double GetDelta(OutputSignal outputSignal, double desireResponse)
+    public static double GetDelta(OutputSignal outputSignal, DesireResponse desireResponse)
     {
         double y = outputSignal.Y;
-        return y * (1 - y) * (desireResponse - y);
+        return y * (1 - y) * (desireResponse.D - y);
     }
 
-    public static double GetDeltaStepOmega(OutputSignal outputSignal, InputSignal inputSignal, double desireResponse, double learnTime = 1)
+    public static double GetDeltaStepOmega(OutputSignal outputSignal, InputSignal inputSignal, DesireResponse desireResponse, double learnTime = 1)
     {
         return GetEpsilon(outputSignal, desireResponse) * inputSignal.X * learnTime;
     }
 
-    public static double GetDeltaSigmoidalOmega(OutputSignal outputSignal, InputSignal inputSignal, double desireResponse, double learnTime = 1)
+    public static double GetDeltaSigmoidalOmega(OutputSignal outputSignal, InputSignal inputSignal, DesireResponse desireResponse, double learnTime = 1)
     {
         return GetDelta(outputSignal, desireResponse) * inputSignal.X * learnTime;
     }

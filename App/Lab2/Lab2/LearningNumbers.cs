@@ -1,4 +1,5 @@
 ﻿using NeuronLearningLibrary;
+using NeuronLibrary;
 
 namespace Lab2;
 
@@ -24,5 +25,8 @@ public class LearningNumber
     public double[] Points => _points;
     public bool IsEven { get; }
 
-    public NeuronSeed NeuronSeed => new() { InputsValues = Points.ToList(), DesireResponse = Convert.ToDouble(IsEven) };
+    public NeuronSeed NeuronSeed => new() { 
+        InputsValues = Points.Select(p => new InputSignal() { X = p }).ToList(),
+        DesireResponse = new DesireResponse() {D = Convert.ToDouble(IsEven) } 
+    };
 }

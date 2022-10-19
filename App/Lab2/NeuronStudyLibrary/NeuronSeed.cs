@@ -1,7 +1,9 @@
-﻿namespace NeuronLearningLibrary;
+﻿using NeuronLibrary;
+
+namespace NeuronLearningLibrary;
 
 public class NeuronSeed
 {
-    public double DesireResponse { get; set; }
-    public List<double> InputsValues { get; set; } = new();
+    public DesireResponse DesireResponse { get; set; } = null!;
+    public List<InputSignal> InputsValues { get; set; } = new();
 }
