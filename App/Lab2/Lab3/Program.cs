@@ -41,14 +41,18 @@ PerceptronTeacher perceptronTeacher = new(learningLetters.PerceptronSeeds)
     }
 };
 
-LetterPerceptron perceptron = new(
-    perceptronTeacher.Teach().Neurons,
+Perceptron perceptron = new(learningLetters.PerceptronSeeds.Select((ps, i) => new Neuron(ps.NeuronSeeds[i].InputsValues.Count)));
+
+perceptronTeacher.TeachStep(perceptron);
+
+LetterPerceptron letterPerceptron = new(
+    perceptron.Neurons,
     new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" }
     );
 
-perceptron.ChangeInputValues(Letters.A);
+letterPerceptron.ChangeInputValues(Letters.A);
 
-Dictionary<string, double> dict = perceptron.GetNameValuesPairs();
+Dictionary<string, double> dict = letterPerceptron.GetNameValuesPairs();
 
 foreach (var key in dict.Keys)
 {

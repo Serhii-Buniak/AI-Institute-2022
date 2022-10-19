@@ -15,6 +15,7 @@ IEnumerable<NeuronSeed> neuronSeeds = new List<NeuronSeed>()
     new LearningNumber(Numbers.Eight,   isEven: true ).NeuronSeed,
     new LearningNumber(Numbers.Nine,    isEven: false ).NeuronSeed,
 };
+
 NeuronTeacher neuronTeacher = new(seeds: neuronSeeds);
 
 int iterNumber = 0;
@@ -24,7 +25,8 @@ neuronTeacher.OnIteration = () =>
     Console.WriteLine($"Iter: {iterNumber}");
 };
 
-Neuron neuron = neuronTeacher.Teach();
+Neuron neuron = new Neuron(35);
+neuronTeacher.TeachStep(neuron);
 
 neuron.ChangeInputValues(Numbers.One);
 if (neuron.StepOutputSignal.IsOne)
