@@ -44,7 +44,7 @@ public static class NeuronFormulas
     public static double GetEpsilon2(OutputSignal outputSignal, DesireResponse desireResponse)
     {
         double sum = Math.Pow((desireResponse.D - outputSignal.Y), 2);
-        return (1 / 2) * sum;
+        return 0.5 * sum;
     }
 
     public static double GetDelta(OutputSignal outputSignal, DesireResponse desireResponse)

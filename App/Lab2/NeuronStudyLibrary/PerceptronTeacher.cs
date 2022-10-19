@@ -36,5 +36,26 @@ public class PerceptronTeacher
         }
 
         return new Perceptron(neurons);
+    }   
+    
+    public Perceptron TeachSigmoidal(Perceptron perceptron, double learnTime = 1)
+    {
+        List<Neuron> neurons = new();
+
+        for (int i = 0; i < perceptron.Neurons.Count; i++)
+        {
+            if (perceptron.Neurons.Count != Seeds[i].NeuronSeeds.Count)
+            {
+                throw new ArgumentException($"{nameof(perceptron.Neurons)} and seeds inputs length don't have same length", nameof(perceptron));
+            }
+
+            List<NeuronSeed> neuronSeeds = Seeds[i].NeuronSeeds;
+            Neuron neuron = perceptron.Neurons[i];
+            NeuronTeacher neuronTeacher = new(neuronSeeds) { OnIteration = OnIteration };
+            neuronTeacher.TeachSigmoidal(neuron, learnTime);
+            neurons.Add(neuron);
+        }
+
+        return new Perceptron(neurons);
     }
 }

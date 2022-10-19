@@ -44,6 +44,7 @@ PerceptronTeacher perceptronTeacher = new(learningLetters.PerceptronSeeds)
 Perceptron perceptron = new(learningLetters.PerceptronSeeds.Select((ps, i) => new Neuron(ps.NeuronSeeds[i].InputsValues.Count)));
 
 perceptronTeacher.TeachStep(perceptron);
+perceptronTeacher.TeachSigmoidal(perceptron);
 
 LetterPerceptron letterPerceptron = new(
     perceptron.Neurons,
@@ -52,10 +53,18 @@ LetterPerceptron letterPerceptron = new(
 
 letterPerceptron.ChangeInputValues(Letters.A);
 
-Dictionary<string, double> dict = letterPerceptron.GetNameValuesPairs();
+Dictionary<string, double> dict = letterPerceptron.GetSigmoidalNameValuesPairs();
 
 foreach (var key in dict.Keys)
 {
     Console.ForegroundColor = ConsoleColor.DarkGreen;
     Console.WriteLine($"{key}: {dict[key]}");
+}
+
+Dictionary<string, double> dict2 = letterPerceptron.GetStepNameValuesPairs();
+
+foreach (var key in dict2.Keys)
+{
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine($"{key}: {dict2[key]}");
 }

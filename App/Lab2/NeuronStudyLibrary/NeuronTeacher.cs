@@ -35,8 +35,8 @@ public class NeuronTeacher
         }
 
         return neuron;
-    }    
-    
+    }
+
     public Neuron TeachSigmoidal(Neuron neuron, double learnTime = 1)
     {
         for (int i = 0; i < Seeds.Count; i++)
@@ -50,14 +50,14 @@ public class NeuronTeacher
             bool success = RunSeedSigmoidal(neuron, Seeds[i], learnTime);
             if (!success)
             {
-                return TeachStep(neuron);
+                return TeachSigmoidal(neuron);
             }
         }
 
         return neuron;
     }
 
-    private bool RunSeedStep(Neuron neuron, NeuronSeed neuronSeed, double learnTime = 1)
+    private static bool RunSeedStep(Neuron neuron, NeuronSeed neuronSeed, double learnTime = 1)
     {
         var values = neuronSeed.InputsValues.Select(sig => sig.X).ToList();
         neuron.ChangeInputValues(values);
@@ -69,14 +69,14 @@ public class NeuronTeacher
 
         neuron.ChangeStepСoefficientsByDesireResponse(neuronSeed.DesireResponse, learnTime);
         return false;
-    }    
-    
-    private bool RunSeedSigmoidal(Neuron neuron, NeuronSeed neuronSeed, double learnTime = 1)
+    }
+
+    private static bool RunSeedSigmoidal(Neuron neuron, NeuronSeed neuronSeed, double learnTime = 1)
     {
         var values = neuronSeed.InputsValues.Select(sig => sig.X).ToList();
         neuron.ChangeInputValues(values);
-
-        if ((neuronSeed.DesireResponse.D - neuron.SigmoidalOutputSignal.Y) < 0.1)
+        var epsilon2 = NeuronFormulas.GetEpsilon2(neuron.SigmoidalOutputSignal, neuronSeed.DesireResponse);
+        if (epsilon2 < 0.1)
         {
             return true;
         }
