@@ -75,8 +75,8 @@ public class NeuronTeacher
     {
         var values = neuronSeed.InputsValues.Select(sig => sig.X).ToList();
         neuron.ChangeInputValues(values);
-        var epsilon2 = NeuronFormulas.GetEpsilon2(neuron.SigmoidalOutputSignal, neuronSeed.DesireResponse);
-        if (epsilon2 < 0.1)
+        var etta = NeuronFormulas.GetSigmoidalEtta(neuron.SigmoidalOutputSignal, neuronSeed.DesireResponse);
+        if (etta < 0.01)
         {
             return true;
         }

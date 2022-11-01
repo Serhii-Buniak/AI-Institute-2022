@@ -2,16 +2,17 @@
 
 namespace Lab3;
 
-public class LetterPerceptron : Perceptron
+public class LetterNetwork : NeuronNetwork
 {
     private readonly IReadOnlyList<string> _names;
 
-    public LetterPerceptron(IEnumerable<Neuron> neurons, IEnumerable<string> names) : base(neurons)
+    public LetterNetwork(IEnumerable<Perceptron> perceptrons, IEnumerable<string> names) : base(perceptrons)
     {
-        if (Neurons.Count != names.Count())
+        if (LastPerceptron.Neurons.Count != names.Count())
         {
-            throw new ArgumentException($"{nameof(Neurons)} and {nameof(names)} don't have same length", nameof(names));
+            throw new ArgumentException($"{nameof(LastPerceptron.Neurons)} and {nameof(names)} don't have same length", nameof(names));
         }
+
         _names = names.ToList();
     }
 
@@ -19,7 +20,7 @@ public class LetterPerceptron : Perceptron
     {
         IReadOnlyList<OutputSignal> signals = OutputSigmoidalSignals;
         Dictionary<string, double> keyValuePairs = new();
-        for (int i = 0; i < Neurons.Count; i++)
+        for (int i = 0; i < LastPerceptron.Neurons.Count; i++)
         {
             keyValuePairs[_names[i]] = signals[i].Y;
         }
@@ -38,20 +39,20 @@ public class LetterPerceptron : Perceptron
             onePercent = 100 / oneCount;
         }
         Dictionary<string, double> keyValuePairs = new();
-        for (int i = 0; i < Neurons.Count; i++)
+        for (int i = 0; i < LastPerceptron.Neurons.Count; i++)
         {
             var percent = (signals[i].IsOne ? onePercent : signals[i].Y) * 100;
             keyValuePairs[_names[i]] = Math.Round(percent, 2);
         }
 
         return keyValuePairs;
-    }    
-    
+    }
+
     public Dictionary<string, double> GetStepNameValuesPairs()
     {
         IReadOnlyList<OutputSignal> signals = OutputStepSignals;
         Dictionary<string, double> keyValuePairs = new();
-        for (int i = 0; i < Neurons.Count; i++)
+        for (int i = 0; i < LastPerceptron.Neurons.Count; i++)
         {
             keyValuePairs[_names[i]] = signals[i].Y;
         }
@@ -70,7 +71,7 @@ public class LetterPerceptron : Perceptron
             onePercent = 100 / oneCount;
         }
         Dictionary<string, double> keyValuePairs = new();
-        for (int i = 0; i < Neurons.Count; i++)
+        for (int i = 0; i < LastPerceptron.Neurons.Count; i++)
         {
             var percent = (signals[i].IsOne ? onePercent : signals[i].Y) * 100;
             keyValuePairs[_names[i]] = Math.Round(percent, 2);

@@ -25,4 +25,9 @@ public class OutputSignal
     }
     public bool IsOne => Y == 1;
     public bool IsZero => Y == 0;
+
+    public static implicit operator InputSignal(OutputSignal outputSignal)
+    {
+        return new InputSignal() { X = outputSignal.Y };
+    }
 }

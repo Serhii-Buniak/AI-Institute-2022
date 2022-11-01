@@ -39,4 +39,16 @@ public class LearningLetters
             return perceptronSeeds;
         }
     }
+
+    public List<NetworkSeed> NetworkSeeds
+    {
+        get
+        {
+            return _letters.Select((l, letterIndex) => new NetworkSeed()
+            {
+                InputsValues = l.Select(p => new InputSignal(p)).ToList(),
+                DesireResponses = _letters.Select((p, index) => new DesireResponse(index == letterIndex ? 1 : 0)).ToList(),
+            }).ToList();
+        }
+    }
 }

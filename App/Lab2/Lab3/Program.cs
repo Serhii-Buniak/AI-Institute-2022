@@ -32,8 +32,33 @@ LearningLetters learningLetters = new(new List<List<double>>()
     Letters.Z,
 });
 
+Perceptron perceptron1 = new(learningLetters.NetworkSeeds.Select(iv => new Neuron(learningLetters.NetworkSeeds[0].InputsValues.Count)));
+foreach (Neuron neuron in perceptron1.Neurons)
+{
+    foreach (Сoefficient coefficient in neuron.RealSigmoidalСoefficients)
+    {
+        coefficient.W = NeuronFormulas.GetRandomСoefficient(-0.5, 0.5, 2);
+    }
+}
+
+Perceptron perceptron2 = new(learningLetters.NetworkSeeds.Select(iv => new Neuron(perceptron1.Neurons.Count)));
+foreach (Neuron neuron in perceptron2.Neurons)
+{
+    foreach (Сoefficient coefficient in neuron.RealSigmoidalСoefficients)
+    {
+        coefficient.W = NeuronFormulas.GetRandomСoefficient(-0.5, 0.5, 2);
+    }
+}
+
+
+NeuronNetwork neuronNetwork = new(new List<Perceptron>()
+{
+    perceptron1,
+    perceptron2
+});
+
 var iter = 0;
-PerceptronTeacher perceptronTeacher = new(learningLetters.PerceptronSeeds)
+NetworkTeacher networkTeacher = new(learningLetters.NetworkSeeds)
 {
     OnIteration = () =>
     {
@@ -41,19 +66,17 @@ PerceptronTeacher perceptronTeacher = new(learningLetters.PerceptronSeeds)
     }
 };
 
-Perceptron perceptron = new(learningLetters.PerceptronSeeds.Select((ps, i) => new Neuron(ps.NeuronSeeds[i].InputsValues.Count)));
 
-perceptronTeacher.TeachStep(perceptron);
-perceptronTeacher.TeachSigmoidal(perceptron);
+neuronNetwork = networkTeacher.TeachSigmoidal(neuronNetwork, 0.25);
 
-LetterPerceptron letterPerceptron = new(
-    perceptron.Neurons,
-    new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" }
-    );
+LetterNetwork network = new(neuronNetwork.Perceptrons, new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
 
-letterPerceptron.ChangeInputValues(Letters.A);
 
-Dictionary<string, double> dict = letterPerceptron.GetSigmoidalNameValuesPairs();
+Console.WriteLine();
+Console.WriteLine("Letters.A");
+network.ChangeInputValues(Letters.A);
+
+Dictionary<string, double> dict = network.GetSigmoidalNameValuesPairs();
 
 foreach (var key in dict.Keys)
 {
@@ -61,10 +84,26 @@ foreach (var key in dict.Keys)
     Console.WriteLine($"{key}: {dict[key]}");
 }
 
-Dictionary<string, double> dict2 = letterPerceptron.GetStepNameValuesPairs();
+Console.WriteLine();
+Console.WriteLine("Letters.Fake");
+network.ChangeInputValues(Letters.Fake);
 
-foreach (var key in dict2.Keys)
+ dict = network.GetSigmoidalNameValuesPairs();
+
+foreach (var key in dict.Keys)
 {
     Console.ForegroundColor = ConsoleColor.DarkGreen;
-    Console.WriteLine($"{key}: {dict2[key]}");
+    Console.WriteLine($"{key}: {dict[key]}");
+}
+
+Console.WriteLine();
+Console.WriteLine("Letters.O");
+network.ChangeInputValues(Letters.O);
+
+ dict = network.GetSigmoidalNameValuesPairs();
+
+foreach (var key in dict.Keys)
+{
+    Console.ForegroundColor = ConsoleColor.DarkGreen;
+    Console.WriteLine($"{key}: {dict[key]}");
 }

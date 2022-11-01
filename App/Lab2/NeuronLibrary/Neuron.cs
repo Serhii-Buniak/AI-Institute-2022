@@ -1,6 +1,6 @@
 ﻿namespace NeuronLibrary;
 
-public class Neuron
+public class Neuron : ICloneable
 {
     private SensitivityThreshold? Threshold { get; } = null;
 
@@ -59,22 +59,35 @@ public class Neuron
 
         for (int i = 0; i < RealSignalsCount; i++)
         {
-            RealStepСoefficients[i].W += NeuronFormulas.GetEpsilon(outputSignal, desireResponse) * RealInputSignals[i].X * learnTime;
+            RealStepСoefficients[i].W += NeuronFormulas.GetStepEtta(outputSignal, desireResponse) * RealInputSignals[i].X * learnTime;
         }
 
         return this;
     }
 
-    public Neuron ChangeSigmoidalСoefficientsByDesireResponse(DesireResponse desireResponse, double learnTime = 1)
+    public Delta ChangeSigmoidalСoefficientsByDesireResponse(DesireResponse desireResponse, double learnTime = 1)
     {
         var outputSignal = SigmoidalOutputSignal;
-
+        var delta = NeuronFormulas.GetDelta(outputSignal, desireResponse);
         for (int i = 0; i < RealSignalsCount; i++)
         {
             RealSigmoidalСoefficients[i].W += NeuronFormulas.GetDeltaSigmoidalOmega(outputSignal, RealInputSignals[i], desireResponse, learnTime);
         }
 
-        return this;
+        return new Delta(delta);
+    }
+
+    public Delta ChangeSigmoidalСoefficientsByDeltaList(List<Delta> deltaList, List<Сoefficient> сoefficients, double learnTime = 1)
+    {
+        var outputSignal = SigmoidalOutputSignal;
+        var delta = NeuronFormulas.GetDelta(outputSignal, deltaList, сoefficients);
+
+        for (int i = 0; i < RealSignalsCount; i++)
+        {
+            RealSigmoidalСoefficients[i].W += NeuronFormulas.GetDeltaSigmoidalOmega(outputSignal, RealInputSignals[i], deltaList, сoefficients, learnTime);
+        }
+
+        return new Delta(delta);
     }
 
     public Neuron IncrementStepСoefficientsByX(double learnTime = 1)
@@ -136,5 +149,28 @@ public class Neuron
     {
         InputSignals[index].X = value;
         return this;
+    }
+
+    public object Clone()
+    {
+        Neuron neuron;
+        if (Threshold is null)
+        {
+            neuron = new(SignalsCount);
+        }
+        else
+        {
+            neuron = new(SignalsCount, Threshold);
+        }
+
+
+        for (int i = 0; i < RealSignalsCount; i++)
+        {
+            neuron.RealInputSignals[i].X = RealInputSignals[i].X;
+            neuron.RealStepСoefficients[i].W = RealStepСoefficients[i].W;
+            neuron.RealSigmoidalСoefficients[i].W = RealSigmoidalСoefficients[i].W;
+        }
+
+        return neuron;
     }
 }

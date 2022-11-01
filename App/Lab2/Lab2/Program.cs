@@ -25,7 +25,7 @@ neuronTeacher.OnIteration = () =>
     Console.WriteLine($"Iter: {iterNumber}");
 };
 
-Neuron neuron = new Neuron(35);
+Neuron neuron = new(35);
 neuronTeacher.TeachStep(neuron);
 
 neuron.ChangeInputValues(Numbers.One);
