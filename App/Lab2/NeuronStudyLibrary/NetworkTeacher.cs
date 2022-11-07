@@ -15,7 +15,7 @@ public class NetworkTeacher
     }
 
     public IReadOnlyList<NetworkSeed> Seeds { get; }
-    public Action OnIteration { get; set; } = () => { };
+    public Action<double> OnIteration { get; set; } = (etta) => { };
 
     public NeuronNetwork TeachSigmoidal(NeuronNetwork network, double learnTime = 1)
     {
@@ -36,8 +36,7 @@ public class NetworkTeacher
 
         while (!(etta < 0.001))
         {
-            Console.WriteLine(etta);
-            OnIteration();
+            OnIteration(etta);
 
             for (int i = 0; i < list.Count; i++)
             {

@@ -60,9 +60,10 @@ NeuronNetwork neuronNetwork = new(new List<Perceptron>()
 var iter = 0;
 NetworkTeacher networkTeacher = new(learningLetters.NetworkSeeds)
 {
-    OnIteration = () =>
+    OnIteration = (etta) =>
     {
         Console.WriteLine($"Iter: {++iter}");
+        Console.WriteLine(etta);
     }
 };
 

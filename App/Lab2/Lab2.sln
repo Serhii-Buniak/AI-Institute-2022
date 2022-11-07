@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuronLibrary", "NeuronLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuronLearningLibrary", "NeuronStudyLibrary\NeuronLearningLibrary.csproj", "{842CCD94-C3F5-46C8-BB85-6F4ADEA78484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3", "Lab3\Lab3.csproj", "{94FC1A1E-4DD6-4DA4-BFF2-FBE963B10575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab3", "Lab3\Lab3.csproj", "{94FC1A1E-4DD6-4DA4-BFF2-FBE963B10575}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
