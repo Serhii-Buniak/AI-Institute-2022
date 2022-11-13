@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.InputSection {
+  background-color: rgb(85, 179, 103);
+  padding: 10px;
+}
+
+.InputSection-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px
+}
+
+.OutputSection {
+  background-color: rgb(211, 155, 71);
+  padding: 10px;
+}
+
+.OutputSection-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px
+}
+
+.TableTeaching {
+  background-color: rgb(73, 111, 225);
+  display: block;
+  padding: 5px;
+}
+
+.TrInput{
+  background-color: rgb(129, 196, 123);
+}
+
+.TrOutput{
+  background-color: rgb(196, 189, 123);
+}
+
+.TrAction {
+  background-color: rgb(196, 145, 123);
+}
+
+.lists {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.list {
+  margin: auto;
+}
+
+.list-item {
+  width: 160px;
+  display: flex;
+  justify-content:space-between;
+}
+
+.list-item input {
+  width: 40px;
+}
+
+table {
+  margin: auto;
+}
+
+th {
+  padding: 5px;
+}
+
+td {
+  background-color: aliceblue;
+}
+
+.Teacher {
+  padding: 5px;
+  background-color: rgb(143, 127, 169);
+}
+
+.input {
+  width: 40px;
+}

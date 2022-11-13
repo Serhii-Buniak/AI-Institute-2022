@@ -65,12 +65,14 @@ public static class NeuronFormulas
 
     public static double GetSigmoidalEtta(List<List<OutputSignalsAndDesireResponses>> outputSignalsAndDesireResponses)
     {
+        double count = 0;
         double sum = 0;
         foreach (var listQ in outputSignalsAndDesireResponses)
         {
             foreach (OutputSignalsAndDesireResponses pair in listQ)
             {
                 sum += Math.Pow((pair.DesireResponse.D - pair.OutputSignal.Y), 2);
+                Console.WriteLine(++count);
             }
         }
 
