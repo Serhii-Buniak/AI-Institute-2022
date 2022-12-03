@@ -28,10 +28,11 @@ public class NeuronController : ApiControllerBase
             .Include(s => s.OutputSignals)
             .ToListAsync();
 
+        var max = await MaxValue();
         List<NetworkSeed> networkSeeds = seeds
             .Select(s => new NetworkSeed()
             {
-                InputsValues = s.InputSignals.Select(@is => new InputSignal(@is.Value)).ToList(),
+                InputsValues = s.InputSignals.Select(@is => new InputSignal(@is.Value / max)).ToList(),
                 DesireResponses = s.OutputSignals.Select(@is => new DesireResponse(@is.Value)).ToList(),
             }).ToList();
 
@@ -74,11 +75,22 @@ public class NeuronController : ApiControllerBase
     }
 
     [HttpPut]
-    public IActionResult SetInputs(List<SignalView> signalViews)
+    public async Task<IActionResult> SetInputs(List<SignalView> signalViews)
     {
-        List<InputSignal> inputSignals = signalViews.Select(s => new InputSignal(s.Value)).ToList();
+        var max = await MaxValue();
+        List<InputSignal> inputSignals = signalViews.Select(s => new InputSignal(s.Value / max)).ToList();
         _service.NeuronNetwork.ChangeInputValues(inputSignals.Select(s => s.X).ToList());
 
         return Ok(_service.NeuronNetwork.OutputSigmoidalSignals.Select(oss => oss.Y));
+    }
+
+    private async Task<double> MaxValue()
+    {
+        List<Seed> seeds = await _context.Seeds
+            .Include(s => s.InputSignals)
+            .Include(s => s.OutputSignals)
+            .ToListAsync();
+
+       return seeds.Max(p => p.InputSignals.Max(i => i.Value));
     }
 }
