@@ -45,3 +45,27 @@
 (test (eq ?country UA)) =>
     (printout t crlf "UA UA UA" crlf)
 )
+
+;-----
+(assert (Vasyl Stole))
+
+(defrule MayIvan
+(not(Vasyl Stole)) =>
+    (printout t crlf "Petro Stole" crlf)
+)
+
+(defrule MayPetro
+(not(Ivan Stole)) =>
+ (printout t crlf "Vasyl Stole" crlf)
+)
+
+(defrule MayMykola
+(not(Vasyl Stole)) =>
+    (printout t crlf "Ivan Stole" crlf)
+)
+
+(defrule MayVasyl
+(not(Petro Stole)) =>
+    (printout t crlf "I Stole" crlf)
+)
+
